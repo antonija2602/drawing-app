@@ -44,11 +44,15 @@ function updateSizeOnScreen() {
 
 // ==================== addEventListener CANVAS ====================
 // waiting for mouse to be pressed to start drawing
+
 canvas.addEventListener("mousedown", (e) => {
     isPressed = true
 
     x = e.offsetX
     y = e.offsetY
+
+    // or on every press draw one circle
+    drawCircle(x, y)
 })
 
 // waiting for mousepress ending to stop drawing
