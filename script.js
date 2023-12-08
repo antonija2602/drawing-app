@@ -1,3 +1,4 @@
+// ==================== VARIABLES ====================
 const canvas = document.getElementById("canvas")
 const increaseButton = document.getElementById("increase")
 const decreaseButton = document.getElementById("decrease")
@@ -6,12 +7,43 @@ const colorEl = document.getElementById("color")
 const clearEl = document.getElementById("clear")
 const ctx = canvas.getContext("2d")
 
+// ==================== INITIAL VALUES ====================
 let size = 20
 let isPressed = false
 let color = "black"
 let x = undefined
 let y = undefined
 
+// we use both function parallel to fill line. both functions make the line smooth and without blank spaces.
+// ==================== function drawCircle ====================
+// draw circles one after one
+function drawCircle(x, y) {
+    ctx.beginPath()
+    ctx.arc(x, y, size, 0, Math.PI * 2)
+    ctx.fillStyle = color
+    ctx.fill()
+}
+
+// ==================== function drawLine ====================
+// draw strokes one after one
+function drawLine(x1, y1, x2, y2) {
+    ctx.beginPath()
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x2, y2)
+    ctx.strokeStyle = color
+    ctx.lineWidth = size * 2
+    ctx.stroke()
+}
+// we use both function parallel to fill line. both functions make the line smooth and without blank spaces.
+
+// ==================== function updateSizeOnScreen ====================
+// showing the size of line in toolbox
+function updateSizeOnScreen() {
+    sizeEl.innerText = size
+}
+
+// ==================== addEventListener CANVAS ====================
+// waiting for mouse to be pressed to start drawing
 canvas.addEventListener("mousedown", (e) => {
     isPressed = true
 
@@ -19,6 +51,7 @@ canvas.addEventListener("mousedown", (e) => {
     y = e.offsetY
 })
 
+// waiting for mousepress ending to stop drawing
 canvas.addEventListener("mouseup", (e) => {
     isPressed = false
 
@@ -26,6 +59,7 @@ canvas.addEventListener("mouseup", (e) => {
     y = undefined
 })
 
+// until mouse is pressed, line is drawn
 canvas.addEventListener("mousemove", (e) => {
     if (isPressed) {
         const x2 = e.offsetX
@@ -39,22 +73,8 @@ canvas.addEventListener("mousemove", (e) => {
     }
 })
 
-function drawCircle(x, y) {
-    ctx.beginPath()
-    ctx.arc(x, y, size, 0, Math.PI * 2)
-    ctx.fillStyle = color
-    ctx.fill()
-}
-
-function drawLine(x1, y1, x2, y2) {
-    ctx.beginPath()
-    ctx.moveTo(x1, y1)
-    ctx.lineTo(x2, y2)
-    ctx.strokeStyle = color
-    ctx.lineWidth = size * 2
-    ctx.stroke()
-}
-
+// =============== addEventListener BUTTONS ===============
+// decrease line size
 decreaseButton.addEventListener("click", () => {
     size -= 5
 
@@ -64,6 +84,7 @@ decreaseButton.addEventListener("click", () => {
     updateSizeOnScreen()
 })
 
+// increase line size
 increaseButton.addEventListener("click", () => {
     size += 5
 
@@ -73,25 +94,14 @@ increaseButton.addEventListener("click", () => {
     updateSizeOnScreen()
 })
 
+// ==================== addEventListener COLOR ====================
+// change line color
 colorEl.addEventListener("change", (e) => {
     color = e.target.value
 })
 
+// ==================== addEventListener CLEAR ====================
+// clear canvas
 clearEl.addEventListener("click", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 })
-
-function updateSizeOnScreen() {
-    sizeEl.innerText = size
-}
-
-// drawCircle(50, 50)
-
-// function draw() {
-//     ctx.clearRect(0, 0, canvas.width, canvas.height)
-//     drawCircle(x, y)
-
-//     requestAnimationFrame(draw)
-// }
-
-// draw()
